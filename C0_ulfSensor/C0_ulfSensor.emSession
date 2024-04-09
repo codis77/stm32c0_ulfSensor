@@ -95,11 +95,11 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="339" useTextEdit="1" path="src/main.c" left="0" selected="1" top="298" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="43" useTextEdit="1" path="sensor/bmp280.c" left="0" top="20" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="339" useTextEdit="1" path="src/main.c" left="0" selected="1" top="300" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="43" useTextEdit="1" path="sensor/bmp280.c" left="0" top="20" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="28" y="26" useTextEdit="1" path="sensor/bmp280.h" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="2" useTextEdit="1" path="src/hal_spi.c" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="41" useTextEdit="1" path="src/hal_spi.h" left="0" top="11" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="41" useTextEdit="1" path="src/hal_spi.h" left="0" top="3" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="6" y="104" useTextEdit="1" path="STM32C0xx/Device/Include/stm32c0xx.h" left="0" top="87" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="C0_ulfSensor" fileDialogDefaultFilter="*.c;*.h" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/home/fm/dev/SeggerES/C0_ulfSensor/LL" debugSearchPath="" autoConnectCapabilities="3199"/>
