@@ -64,7 +64,7 @@ uint8_t             currentBufIndex  = 0;
 uint8_t             currentSmpIndex  = 0;
 volatile uint16_t  *bufPtr           = buffer0;  /* transmit buffer pointer */
 volatile uint16_t  *smpPtr           = buffer0;  /* sample buffer pointer   */
-volatile uint8_t    sBuffer[16]      = {0};
+volatile uint8_t    sBuffer[32]      = {0};
 volatile uint8_t    sBufIndex        = 0;
 volatile uint8_t    sBufChars        = 0;
 
@@ -142,12 +142,14 @@ int  main (void)
         eLoop ();
     }
 
+#ifdef _HW_TEST_
     ret = getReg (REG_STATUS);
     printf ("STAT = 0x%02x\n", ret);
     ret = getReg (REG_CTRL);
     printf ("CTRL = 0x%02x\n", ret);
     ret = getReg (REG_CONFIG);
     printf ("CFG  = 0x%02x\n", ret);
+#endif
 
     temp  = 0;
     count = 0;
@@ -313,8 +315,7 @@ void  tdelay (uint16_t ticks)
     while (toDelay > 0);
 }
 
-#define SER_FMT_HEX    "%hX\n"
-#define SER_FMT_DEC    "%hd\n"
+
 
 /* prepare a data item for UART transmission, and initiate the sending;
  * 
@@ -366,7 +367,7 @@ static uint8_t  initLatency = 1;
 void  putItem (uint16_t data)
 {
     uint8_t  bufFull = 0;
-
+#if 0
     *smpPtr++ = data;
     currentSmpIndex++;
 
@@ -387,12 +388,19 @@ void  putItem (uint16_t data)
             SmplBuffer = 0;
         }
     }
+#endif
+    int              len;
+    static uint16_t  cbuf[DB_SIZE];
+    static uint16_t  cbindex = 0;
+
     if (sysMode == DEV_STATUS_CALIBRATE)
     {
+        cbuf[cbindex++] = data;
+        if (cbindex >= DB_SIZE)
+            bufFull = 1;
+
         if (bufFull)
         {
-            int       len;
-
             sysMode  = DEV_STATUS_RUN;
             calValue = getCalibrationValue (buffer0, DB_SIZE);
             /* create tx string, and init transmission */
@@ -401,7 +409,13 @@ void  putItem (uint16_t data)
         }
     }
     else  // run mode, interleave data sampling with transmission
+    {
+#if 0
         sendItem();
+#endif
+        len = sprintf ((char *)sBuffer, "%hd\n", data);
+        sSendBuffer ((uint8_t *) sBuffer, len);
+    }
 }
 
 

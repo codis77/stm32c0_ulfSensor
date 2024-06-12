@@ -28,7 +28,7 @@
 /* Private includes ----------------------------------------------------------*/
 
 /* external data -------------------------------------------------------------*/
-extern volatile uint8_t    sBuffer[16];
+extern volatile uint8_t    sBuffer[32];
 extern volatile uint8_t    sBufIndex;
 extern volatile uint8_t    sBufChars;
 

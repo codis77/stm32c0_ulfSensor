@@ -18,6 +18,9 @@ typedef unsigned char    BOOL;
 #define PB6_EXTICR2_MSK           0x00010000  // mask to set PB6 as EXTI input in EXTICR2
 #define EXTI_PEND_CLR_MASK        0x00FFFF    // mask for clearing the "pending" bit registers
 
+#define SER_FMT_HEX               "%hX\n"
+#define SER_FMT_DEC               "%hd\n"
+
 
 #define _HW_TEST_
 
