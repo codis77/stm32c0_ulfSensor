@@ -89,9 +89,10 @@ void               putItem             (uint16_t);
 void               sendItem            (void);
 void               sSendBuffer         (uint8_t *str, uint8_t size);
 static uint16_t    getCalibrationValue (uint16_t *pBuffer, uint16_t items);
+static void        txTestSequence      (void);
 
 #ifdef _HW_TEST_
-
+  #warning "hardware test code enabled !"
 #endif
 
 
@@ -121,6 +122,11 @@ int  main (void)
     setupUserButton ();
     initUart ();
     spi_setupPins ();
+
+#ifdef _HW_TEST_
+    txTestSequence ();
+    txTestSequence ();
+#endif
 
     // check user button at startup;
     btnState = getUserButton ();
@@ -307,6 +313,8 @@ void  tdelay (uint16_t ticks)
     while (toDelay > 0);
 }
 
+#define SER_FMT_HEX    "%hX\n"
+#define SER_FMT_DEC    "%hd\n"
 
 /* prepare a data item for UART transmission, and initiate the sending;
  * 
@@ -315,7 +323,13 @@ void  sendItem (void)
 {
     int       len;
     uint16_t  data;
+    char     *fmt;
 
+#ifdef _SER_OUT_FORMAT_HEX
+    fmt = SER_FMT_HEX;
+#else
+    fmt = SER_FMT_DEC;
+#endif
     data = *bufPtr++;
     currentBufIndex++;
 
@@ -336,7 +350,7 @@ void  sendItem (void)
     }
 
     /* create tx string, and init transmission */
-    len = sprintf ((char *)sBuffer, "%hX\n", data);
+    len = sprintf ((char *)sBuffer, fmt, data);
     sSendBuffer ((uint8_t *) sBuffer, len);
 }
 
@@ -486,5 +500,21 @@ static uint16_t  getCalibrationValue (uint16_t *pBuffer, uint16_t items)
     return (uint16_t)(sum / items);
 }
 
+
+static void  txTestSequence (void)
+{
+    USART1->TDR = 0xAA;
+    sysDelay (2);
+    USART1->TDR = 0x55;
+    sysDelay (2);
+    USART1->TDR = 0x00;
+    sysDelay (2);
+    USART1->TDR = 0xFF;
+    sysDelay (2);
+    USART1->TDR = 0x81;
+    sysDelay (2);
+    USART1->TDR = 0x7E;
+    sysDelay (2);
+}
 
 /********************* End of file **********************/
