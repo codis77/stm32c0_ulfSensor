@@ -75,11 +75,10 @@ void USART1_IRQHandler(void)
     if (USART1->ISR & USART_ISR_TXE_TXFNF)
     {
         USART1->TDR = sBuffer[sBufIndex++];  /* next char; write clears the TXE flag */
-        sBufChars--;
 
         /* if last character, disable the interrupt */
         //if (sBuffer[sBufIndex] == '\0')
-        if (sBufChars <= 1)
+        if (sBufIndex >= (sBufChars - 1))
             USART1->CR1 &= ~USART_CR1_TXEIE_MASK;
     }
     else // clear errors

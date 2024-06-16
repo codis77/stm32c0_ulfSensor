@@ -423,12 +423,22 @@ void  putItem (uint16_t data)
  */
 void  sSendBuffer (uint8_t *str, uint8_t size)
 {
+#if 0
 //  LL_USART_EnableIT_TXE (USART1);
-    USART1->CR1 |= USART_CR1_TXEIE_TXFNFIE;  // enable TXE interrupt
     sBufIndex    = 1;                        // set index for first interrupt
     sBufChars    = size - 1;                 // and string length
     USART1->TDR  = str[0];                   // push first character
+    USART1->CR1 |= USART_CR1_TXEIE_TXFNFIE;  // enable TXE interrupt
+#else
+    sBufIndex = 0;
+    while (str[sBufIndex] != '\0')
+    {
+        USART1->TDR = str[sBufIndex++];
+        while (! (USART1->ISR & USART_ISR_TC_Msk));  // busy-wait
+    }
+#endif
 }
+
 
 
 /* endless error loop;
